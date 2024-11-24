@@ -55,5 +55,27 @@ public class PeopleController {
         return "redirect:/people";
     }
 
+    @GetMapping("/edit/{id}")
+    public String editPerson(@PathVariable("id") long id, Model model) {
+        Person personToBeEdited = personDao.getPersonById(id);
+        model.addAttribute("keyOfPersonToBeEdited", personToBeEdited);
+        return "view-to-edit-person";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String editPerson(@PathVariable("id") long id,
+                             @ModelAttribute("keyOfPersonToBeEdited") Person personFromForm) {
+        personDao.updatePerson(personFromForm);
+        return "redirect:/people";
+    }
+
+    @PostMapping("/delete/{id}")
+    public String deletePerson(@PathVariable("id") long id) {
+        personDao.deletePerson(id);
+        return "redirect:/people";
+    }
+
+
+
 }
 

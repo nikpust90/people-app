@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -9,6 +9,19 @@
 <p th:text="${keyPersonById.getId()}"></p>
 <br/>
 <p th:text="${keyPersonById.getName()}"></p>
+<br/>
+<p th:text="${keyPersonById.getAge()}"></p>
+<br/>
+<p th:text="${keyPersonById.getMail()}"></p>
+<br/>
 
+<a th:href="@{/people/edit/{id}(id=${keyPersonById.getId()})}">Edit</a>
+
+<form th:method="post"
+      th:action="@{/people/delete/{id}(id=${keyPersonById.getId()})}">
+
+    <input type="submit" value="Delete person" />
+
+</form>
 </body>
 </html>
