@@ -6,7 +6,10 @@
 </head>
 <body>
 
+<div th:each=" eachPerson : ${keyAllPeoples}">
+    <a th:href="@{/people/{id}(id=${eachPerson.getId()})}" th:text="${eachPerson.getName()}"></a>
 
+</div>
 
 </body>
 </html>
