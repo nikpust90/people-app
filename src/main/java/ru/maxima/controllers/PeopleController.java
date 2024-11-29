@@ -1,9 +1,12 @@
 package ru.maxima.controllers;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.maxima.dao.PersonDao;
 import ru.maxima.model.Person;
@@ -50,10 +53,40 @@ public class PeopleController {
     }
 
     @PostMapping()
-    public String createPerson(@ModelAttribute("keyOfNewPerson") Person person) {
+    public String createPerson(@ModelAttribute("keyOfNewPerson") @Valid Person person, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "view-to-create-new-person";
+        }
         personDao.savePerson(person);
         return "redirect:/people";
     }
+
+    @GetMapping("/edit/{id}")
+    public String editPerson(@PathVariable("id") long id, Model model) {
+        Person personToBeEdited = personDao.getPersonById(id);
+        model.addAttribute("keyOfPersonToBeEdited", personToBeEdited);
+        return "view-to-edit-person";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String editPerson(@PathVariable("id") long id,
+                             @ModelAttribute("keyOfPersonToBeEdited") @Valid Person personFromForm,
+
+                             BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "view-to-edit-person";
+        }
+        personDao.updatePerson(personFromForm);
+        return "redirect:/people";
+    }
+
+    @PostMapping("/delete/{id}")
+    public String deletePerson(@PathVariable("id") long id) {
+        personDao.deletePerson(id);
+        return "redirect:/people";
+    }
+
+
 
 }
 

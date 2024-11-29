@@ -34,4 +34,16 @@ public class PersonDao {
         person.setId(++NEXT_ID);
         allPeoples.add(person);
     }
+
+    public void updatePerson(Person personFromForm) {
+        Person personFromDb = getPersonById(personFromForm.getId());
+        personFromDb.setName(personFromForm.getName());
+        personFromDb.setAge(personFromForm.getAge());
+        personFromDb.setMail(personFromForm.getMail());
+
+    }
+
+    public void deletePerson(long id) {
+        allPeoples.removeIf(person -> person.getId() == id);
+    }
 }

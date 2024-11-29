@@ -86,6 +86,19 @@
       <artifactId>hibernate-validator</artifactId>
       <version>9.0.0.Beta3</version>
     </dependency>
+    <dependency>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+      <version>6.0.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-jdbc</artifactId>
+      <version>6.2.0</version>
+    </dependency>
+
 
 
   </dependencies>

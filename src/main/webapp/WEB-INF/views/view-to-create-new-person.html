@@ -7,17 +7,21 @@
 <body>
 
 <form th:method="post" th:action="@{/people}"  th:object="${keyOfNewPerson}">
+
   <label for="nameOfInput">Input name at person</label>
   <input type="text" id="nameOfInput" name="nameOfInput" th:field="*{name}"/>
+  <div style="color: red;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
   <br/>
 
-    <label for="ageOfInput">Input age at person</label>
-    <input type="number" id="ageOfInput" name="ageOfInput" th:field="*{age}"/>
-    <br/>
+  <label for="ageOfInput">Input age at person</label>
+  <input type="number" id="ageOfInput" name="ageOfInput" th:field="*{age}"/>
+  <div style="color: red;" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></div>
+  <br/>
 
-    <label for="mailOfInput">Input mail at person</label>
-    <input type="text" id="mailOfInput" name="mailOfInput" th:field="*{mail}"/>
-    <br/>
+  <label for="mailOfInput">Input mail at person</label>
+  <input type="text" id="mailOfInput" name="mailOfInput" th:field="*{mail}"/>
+  <div style="color: red;" th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}"></div>
+  <br/>
 
   <input type="submit" value="Push to create new person" />
 
