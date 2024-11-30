@@ -14,7 +14,7 @@ public class PersonDao {
 
     private List<Person> allPeoples;
 
-    private final String URL = "jdbc:postgresql://localhost:5432/postgres";
+    private final String URL = "jdbc:postgresql://45.155.207.250:5432/mydatabase";
     private final String USER = "postgres";
     private final String PASSWORD = "postgres";
     private Connection connection;
