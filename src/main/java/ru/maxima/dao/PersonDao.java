@@ -12,9 +12,9 @@ import java.util.concurrent.Callable;
 @Component
 public class PersonDao {
 
-    private List<Person> allPeoples;
 
-    private final String URL = "jdbc:postgresql://45.155.207.250:5432/mydatabase";
+
+    private final String URL = "jdbc:postgresql://localhost:5432/postgres";
     private final String USER = "postgres";
     private final String PASSWORD = "postgres";
     private Connection connection;
@@ -34,14 +34,14 @@ public class PersonDao {
 
     }
 
-    public PersonDao(List<Person> allPeoples) {
-        this.allPeoples = allPeoples;
-    }
+
 
     public List<Person> getAllPeoples() {
 
+        List<Person> allPeoples = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
+
             String sql = "SELECT * FROM person";
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
@@ -57,6 +57,7 @@ public class PersonDao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
         return allPeoples;
     }
 
@@ -90,14 +91,16 @@ public class PersonDao {
         Long max = getAllPeoples().stream()
                 .map(Person::getId)
                 .max(Long::compareTo)
-                .orElse(null);
+                .orElse(0L);
         try {
             Statement statement = connection.createStatement();
-            String sql = "INSERT INTO person (id, name, age, mail) VALUES (" +
-                    ++max +
-                    ",'" + person.getName() +
-                    "'," + person.getAge() +
-                    ",'" + person.getMail() + "')";
+            String sql = String.format(
+                    "INSERT INTO person (id, name, age, mail) VALUES (%d, '%s', %d, '%s')",
+                    ++max,
+                    person.getName(),
+                    person.getAge(),
+                    person.getMail()
+            );
             statement.executeUpdate(sql);
 
 
@@ -110,11 +113,12 @@ public class PersonDao {
 
         try {
             Statement statement = connection.createStatement();
-            String sql = "UPDATE person SET " +
-                    "name = '" + personFromForm.getName() + "', " +
-                    "age = " + personFromForm.getAge() + ", " +
-                    "mail = '" + personFromForm.getMail() + "' " +
-                    "WHERE id = " + personFromForm.getId() + ";";
+            String sql = String.format(
+                    "UPDATE person SET name = '%s', age = %d, mail = '%s' WHERE id = %d",
+                    personFromForm.getName(),
+                    personFromForm.getAge(),
+                    personFromForm.getMail(),
+                    personFromForm.getId());
             statement.executeUpdate(sql);
 
 
